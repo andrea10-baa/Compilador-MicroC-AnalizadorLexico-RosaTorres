@@ -3,9 +3,6 @@ from tkinter import filedialog, messagebox, font
 import os
 import re
 
-
-#  ANALIZADOR LÉXICO
-
 PALABRAS_RESERVADAS = {
     "int", "float", "double", "char", "void", "bool",
     "if", "else", "while", "for", "do", "return",
@@ -15,7 +12,7 @@ PALABRAS_RESERVADAS = {
     "true", "false", "null", "NULL"
 }
 
-# Orden importa: los patrones más específicos van primero
+# los patrones más específicos van primero
 TOKEN_SPEC = [
     ("COMENTARIO_ML", r"/\*[\s\S]*?\*/"),          # /* comentario */
     ("COMENTARIO_SL", r"//[^\n]*"),                 # // comentario
@@ -442,7 +439,7 @@ class MicroCCompiler:
 
     def abrir_github(self):
         import webbrowser
-        webbrowser.open("https://github.com/andrea10-baa/Compilador-MicroC-RosaTorres")
+        webbrowser.open("https://github.com/andrea10-baa/Compilador-MicroC-AnalizadorLexico-RosaTorres")
 
     def salir(self):
         if not self._confirmar_guardar():
