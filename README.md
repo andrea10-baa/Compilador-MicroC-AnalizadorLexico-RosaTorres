@@ -123,3 +123,15 @@ Compilador-MicroC-AnalizadorLexico-RosaTorres/
 │
 └── README.md               → Documentación principal
 ```
+
+## Historial de Commits
+
+| # | Mensaje |
+|---|---------|
+| 1 | Initial commit |
+| 2 | feat: implementar analizador lexico - etapa 1 |
+| 3 | docs: actualizar README con documentacion del analizador lexico |
+| 4 | docs: organizar estructura del repositorio |
+| 5 | docs: organizar estructura y agregar manual de usuario |
+| 6 | assets: agregar carpeta de recursos |
+| 7 | assets: agregar capturas de pantalla |
