@@ -50,7 +50,7 @@ git clone https://github.com/andrea10-baa/Compilador-MicroC-AnalizadorLexico-Ros
 
 2. Ingresar a la carpeta del proyecto:
 ```bash
-cd Compilador-MicroC-RosaTorres
+cd Compilador-MicroC-AnalizadorLexico-RosaTorres
 ```
 
 3. Ejecutar el compilador:
