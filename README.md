@@ -45,7 +45,7 @@ La aplicación permite:
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/andrea10-baa/Compilador-MicroC-RosaTorres.git
+git clone https://github.com/andrea10-baa/Compilador-MicroC-AnalizadorLexico-RosaTorres
 ```
 
 2. Ingresar a la carpeta del proyecto:
