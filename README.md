@@ -6,7 +6,7 @@
 | **Nombre** | Rosa Andrea Fernanda Torres Del Aguila |
 | **Carné** | 202425516 |
 | **Curso** | Autómatas y Lenguajes |
-| **Proyecto** | Pre-Compilador MicroC |
+| **Proyecto** | Analizador Léxico MicroC |
 | **Universidad** | Universidad Mesoamericana |
 | **Año** | 2026 |
 
@@ -45,12 +45,12 @@ La aplicación permite:
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/andrea10-baa/Compilador-MicroC-RosaTorres.git
+git clone https://github.com/andrea10-baa/Compilador-MicroC-AnalizadorLexico-RosaTorres
 ```
 
 2. Ingresar a la carpeta del proyecto:
 ```bash
-cd Compilador-MicroC-RosaTorres
+cd Compilador-MicroC-AnalizadorLexico-RosaTorres
 ```
 
 3. Ejecutar el compilador:
@@ -82,7 +82,7 @@ python src/"MicroC compiler.py"
 
 ## Video Demostrativo
 
-*Enlace al video demostrativo:* [Ver video](https://youtu.be/Udzv8dCWWm0)
+*Enlace al video demostrativo:* [Ver video](https://youtu.be/6cNhU_VurHk)
 
 ---
 
