@@ -15,9 +15,9 @@
 
 El compilador MicroC es un proyecto desarrollado en dos etapas como parte del curso de Autómatas y Lenguajes.
 
-**Etapa 1 — Analizador Léxico:** Implementa el análisis léxico utilizando expresiones regulares para reconocer tokens del lenguaje MicroC (basado en C/C++). El analizador indica si el código ingresado **pertenece o no pertenece** al lenguaje MicroC, identificando cada token con su número correspondiente y reportando errores léxicos con número de línea.
+**Fase 1 — Analizador Léxico:** Implementa el análisis léxico utilizando expresiones regulares para reconocer tokens del lenguaje MicroC (basado en C/C++). El analizador indica si el código ingresado **pertenece o no pertenece** al lenguaje MicroC, identificando cada token con su número correspondiente y reportando errores léxicos con número de línea.
 
-**Etapa 2 — Autómatas AFD y AFND:** Implementa un módulo interactivo de autómatas finitos. Incluye 10 autómatas predefinidos con sus expresiones regulares, diagramas de estados, clasificación AFD/AFND y su relación con el compilador. Además permite ingresar expresiones regulares propias y validar cadenas en tiempo real.
+**Fase 2 — Autómatas AFD y AFND:** Implementa un módulo interactivo de autómatas finitos. Incluye 10 autómatas predefinidos con sus expresiones regulares, diagramas de estados, clasificación AFD/AFND y su relación con el compilador. Además permite ingresar expresiones regulares propias y validar cadenas en tiempo real.
 
 ---
 
