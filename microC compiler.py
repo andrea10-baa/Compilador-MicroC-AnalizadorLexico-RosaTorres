@@ -690,13 +690,18 @@ class MicroCCompiler:
 
     def ayuda(self):
         """Abre directamente el PDF de instrucciones del compilador."""
-        ruta_pdf = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
-                            "..", "docs", "COMPILADOR AL 2026.pdf")
-        try:
-            os.startfile(ruta_pdf)
-            self._log_resultado("  Abriendo instrucciones del compilador...")
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo abrir el PDF:\n{e}")
+        base = os.path.dirname(os.path.abspath(__file__))
+        rutas = [
+            os.path.join(base, "..", "docs", "COMPILADOR AL 2026.pdf"),
+            os.path.join(base, "docs", "COMPILADOR AL 2026.pdf"),
+        ]
+        for ruta in rutas:
+            ruta = os.path.normpath(ruta)
+            if os.path.exists(ruta):
+                os.startfile(ruta)
+                self._log_resultado("  Abriendo instrucciones del compilador...")
+                return
+        messagebox.showerror("Error", "No se encontró el PDF.\nAsegurate de que 'COMPILADOR AL 2026.pdf' esté en la carpeta docs/")
 
 
     def _ayuda_legacy(self):
