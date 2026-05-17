@@ -676,7 +676,7 @@ class MicroCCompiler:
         cadena = self._cadena_entry.get()
         if not expr:
             self._log_automata(txt,
-                "  ⚠ Ingresá una expresión regular primero.\n\n"
+                "  Ingresá una expresión regular primero.\n\n"
                 "  Ejemplos:\n"
                 "    (a|b)*     → AFND\n"
                 "    ab+a       → AFD\n"
@@ -690,7 +690,8 @@ class MicroCCompiler:
 
     def ayuda(self):
         """Abre directamente el PDF de instrucciones del compilador."""
-        ruta_pdf = r"C:\Users\randr\OneDrive\Documentos\AUTOMATAS Y LENGUAJES\COMPILADOR AL 2026.pdf"
+        ruta_pdf = os.path.join(os.path.dirname(os.path.abspath(__file__)), 
+                            "..", "docs", "COMPILADOR AL 2026.pdf")
         try:
             os.startfile(ruta_pdf)
             self._log_resultado("  Abriendo instrucciones del compilador...")
