@@ -15,9 +15,9 @@
 
 El compilador MicroC es un proyecto desarrollado en dos etapas como parte del curso de Autómatas y Lenguajes.
 
-**Fase 1 — Analizador Léxico:** Implementa el análisis léxico utilizando expresiones regulares para reconocer tokens del lenguaje MicroC (basado en C/C++). El analizador indica si el código ingresado **pertenece o no pertenece** al lenguaje MicroC, identificando cada token con su número correspondiente y reportando errores léxicos con número de línea.
+**Etapa 1 — Analizador Léxico:** Implementa el análisis léxico utilizando expresiones regulares para reconocer tokens del lenguaje MicroC (basado en C/C++). El analizador indica si el código ingresado **pertenece o no pertenece** al lenguaje MicroC, identificando cada token con su número correspondiente y reportando errores léxicos con número de línea.
 
-**Fase 2 — Autómatas AFD y AFND:** Implementa un módulo interactivo de autómatas finitos. Incluye 10 autómatas predefinidos con sus expresiones regulares, diagramas de estados, clasificación AFD/AFND y su relación con el compilador. Además permite ingresar expresiones regulares propias y validar cadenas en tiempo real.
+**Etapa 2 — Autómatas AFD y AFND:** Implementa un módulo interactivo de autómatas finitos. Permite ingresar expresiones regulares propias y validar cadenas en tiempo real, detectando automáticamente si la expresión corresponde a un AFD o AFND.
 
 ---
 
@@ -63,20 +63,12 @@ El compilador MicroC es un proyecto desarrollado en dos etapas como parte del cu
 
 ---
 
-## Autómatas Predefinidos (Etapa 2)
+## Autómatas (Etapa 2)
 
-| # | Expresión | Tipo | Descripción |
-| --- | --- | --- | --- |
-| 1 | `(1\|0)+` | AFND | Cadenas de 0s y 1s (al menos uno) |
-| 2 | `012*` | AFD | Cadena '01' seguida de cero o más '2' |
-| 3 | `(0\|1)00(0\|1)` | AFND | Empieza con 0 o 1, luego '00', termina con 0 o 1 |
-| 4 | `(a\|ab)aba(a\|ba)` | AFND | Expresión compleja con alternancia al inicio y final |
-| 5 | `ab+a` | AFD | Empieza con 'a', una o más 'b', termina con 'a' |
-| 6 | `a?\|a(a\|b)a` | AFND | 'a' opcional O 'a' seguido de (a\|b) seguido de 'a' |
-| 7 | `a\|b` | AFND | Solo 'a' o solo 'b' |
-| 8 | `(a\|b)*` | AFND | Cualquier combinación de 'a' y 'b' (incluso vacía) |
-| 9 | `(x\|y)?(z\|w)+` | AFND | 'x' o 'y' opcional, luego una o más 'z' o 'w' |
-| 10 | `ab(a(ba)*a\|b?ba+)bb` | AFND | Expresión compleja con grupos anidados y cuantificadores |
+El módulo de autómatas permite ingresar cualquier expresión regular y una cadena para validar. El sistema detecta automáticamente si la expresión es **AFD** o **AFND** y muestra el resultado del procesamiento.
+
+- **AFD** = Autómata Finito Determinista — cada estado tiene exactamente un camino por símbolo
+- **AFND** = Autómata Finito No Determinista — puede haber más de un camino por símbolo (causado por `|`, `?`, `*`)
 
 ---
 
@@ -206,3 +198,10 @@ Compilador-MicroC-AnalizadorLexico-RosaTorres/
 | 5 | docs: organizar estructura y agregar manual de usuario |
 | 6 | assets: agregar carpeta de recursos |
 | 7 | assets: agregar capturas de pantalla |
+| 8 | docs: actualizar nombre completo y carné en acerca_de |
+| 9 | docs: actualizar README etapa 1 y etapa 2 |
+| 10 | feat: eliminar automatas predefinidos del codigo |
+| 11 | feat: quitar columna # de la tabla de tokens |
+| 12 | feat: quitar ejemplos del mensaje de bienvenida en automatas |
+| 13 | fix: version final corregida al 100 |
+| 14 | fix: resolver conflicto README |
