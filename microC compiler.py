@@ -4,7 +4,7 @@ import os
 import re
 
 # ─────────────────────────────────────────────
-#  TABLA DE UNIDADES LÉXICAS (del código 2)
+#  TABLA DE UNIDADES LÉXICAS
 # ─────────────────────────────────────────────
 
 PALABRAS = {
@@ -31,7 +31,7 @@ PALABRAS = {
     "atof": 54,     "atol": 55,     "rand": 56,     "srand": 57,
     "calloc": 58,   "realloc": 59,
 
-    # ── Generales / otras ─────────────────────────────────────── 60–69
+    # ── Generales / otras ─────────────────────────────────────── 60–64
     "main": 60,     "null": 61,     "NULL": 62,     "true": 63,
     "false": 64,
 }
@@ -63,11 +63,11 @@ SIMBOLOS = {
 
 
 def get_token_palabra(lexema):
-    return PALABRAS.get(lexema, 300)   # 300 = identificador
+    return PALABRAS.get(lexema, 300)
 
 
 def get_token_simbolo(lexema):
-    return SIMBOLOS.get(lexema, -1)    # -1 = símbolo no encontrado
+    return SIMBOLOS.get(lexema, -1)
 
 
 # ─────────────────────────────────────────────
@@ -75,23 +75,23 @@ def get_token_simbolo(lexema):
 # ─────────────────────────────────────────────
 
 TOKEN_SPEC = [
-    ("COMENTARIO_ML", r"/\*[\s\S]*?\*/"),           # /* comentario */
-    ("COMENTARIO_SL", r"//[^\n]*"),                  # // comentario
-    ("PREPROCESADOR",  r"#\s*\w+[^\n]*"),            # #include, #define
-    ("REAL",           r"\d+\.\d+([eE][+-]?\d+)?"),  # 3.14, 1.0e5
-    ("ENTERO",         r"\d+"),                       # 42
-    ("CADENA",         r'"[^"\\]*(\\.[^"\\]*)*"'),   # "hola"
-    ("CARACTER",       r"'(?:[^'\\]|\\.)'"),             # 'a' '\n'
-    ("OP_LOGICO",      r"&&|\|\|"),                   # && ||
-    ("OP_RELACIONAL",  r"==|!=|<=|>=|<|>"),           # == != <= >= < >
-    ("OP_ASIGNACION",  r"\+=|-=|\*=|/=|%=|="),       # = += -= etc.
-    ("OP_INCREMENTO",  r"\+\+|--"),                   # ++ --
-    ("OP_ARITMETICO",  r"[+\-*/%]"),                  # + - * / %
-    ("OP_BITS",        r"&|\||\^|~|<<|>>"),           # & | ^ ~ << >>
-    ("DELIMITADOR",    r"[(){}\[\];,.:]"),              # ( ) { } [ ] ; , . :
-    ("IDENTIFICADOR",  r"[a-zA-Z_]\w*"),              # variables, funciones
-    ("ESPACIO",        r"[ \t\r\n]+"),                # espacios (ignorar)
-    ("DESCONOCIDO",    r"."),                          # cualquier otro
+    ("COMENTARIO_ML", r"/\*[\s\S]*?\*/"),
+    ("COMENTARIO_SL", r"//[^\n]*"),
+    ("PREPROCESADOR",  r"#\s*\w+[^\n]*"),
+    ("REAL",           r"\d+\.\d+([eE][+-]?\d+)?"),
+    ("ENTERO",         r"\d+"),
+    ("CADENA",         r'"[^"\\]*(\\.[^"\\]*)*"'),
+    ("CARACTER",       r"'(?:[^'\\]|\\.)'"),
+    ("OP_LOGICO",      r"&&|\|\|"),
+    ("OP_RELACIONAL",  r"==|!=|<=|>=|<|>"),
+    ("OP_ASIGNACION",  r"\+=|-=|\*=|/=|%=|="),
+    ("OP_INCREMENTO",  r"\+\+|--"),
+    ("OP_ARITMETICO",  r"[+\-*/%]"),
+    ("OP_BITS",        r"&|\||\^|~|<<|>>"),
+    ("DELIMITADOR",    r"[(){}\[\];,.:]"),
+    ("IDENTIFICADOR",  r"[a-zA-Z_]\w*"),
+    ("ESPACIO",        r"[ \t\r\n]+"),
+    ("DESCONOCIDO",    r"."),
 ]
 
 TOKEN_REGEX = re.compile(
@@ -100,15 +100,10 @@ TOKEN_REGEX = re.compile(
 
 
 # ─────────────────────────────────────────────
-#  ANÁLISIS LÉXICO  (retorna token numérico)
+#  ANÁLISIS LÉXICO
 # ─────────────────────────────────────────────
 
 def analizar_lexico(codigo):
-    """
-    Retorna:
-      tokens  → lista de (tipo_str, valor, linea, num_token)
-      errores → lista de (linea, valor)
-    """
     tokens = []
     errores = []
     linea = 1
@@ -120,20 +115,16 @@ def analizar_lexico(codigo):
 
         if tipo == "ESPACIO":
             continue
-
         elif tipo == "DESCONOCIDO":
             errores.append((linea, valor))
-
         elif tipo == "IDENTIFICADOR":
             num_token = get_token_palabra(valor)
             tipo_nombre = "PALABRA_RESERVADA" if num_token != 300 else "IDENTIFICADOR"
             tokens.append((tipo_nombre, valor, linea, num_token))
-
         elif tipo in ("OP_LOGICO", "OP_RELACIONAL", "OP_ASIGNACION",
                       "OP_INCREMENTO", "OP_ARITMETICO", "OP_BITS", "DELIMITADOR"):
             num_token = get_token_simbolo(valor)
             tokens.append((tipo, valor, linea, num_token))
-
         elif tipo == "ENTERO":
             tokens.append((tipo, valor, linea, 200))
         elif tipo == "REAL":
@@ -155,14 +146,13 @@ def analizar_lexico(codigo):
 
 
 # ─────────────────────────────────────────────
-#  FORMATO DE RESULTADO  (del código 1 + token)
+#  FORMATO DE RESULTADO
 # ─────────────────────────────────────────────
 
 def formatear_resultado(tokens, errores, codigo):
     lineas_codigo = codigo.splitlines()
     total_lineas = len(lineas_codigo)
 
-    # Contadores por tipo
     conteo = {}
     for tipo, _, _, _ in tokens:
         conteo[tipo] = conteo.get(tipo, 0) + 1
@@ -181,7 +171,6 @@ def formatear_resultado(tokens, errores, codigo):
     resultado.append(f"\n  Líneas de código : {total_lineas}")
     resultado.append(f"  Total de tokens  : {len(tokens)}")
 
-    # ── Resumen por tipo ──
     resultado.append("")
     resultado.append("  RESUMEN POR TIPO DE TOKEN")
     resultado.append("-" * 50)
@@ -196,7 +185,6 @@ def formatear_resultado(tokens, errores, codigo):
             nombre = tipo.replace("_", " ").title()
             resultado.append(f"  {nombre:<25} {conteo[tipo]:>4}")
 
-    # ── Lista detallada ──
     resultado.append("\n" + "-" * 60)
     resultado.append("  TOKENS ENCONTRADOS")
     resultado.append("-" * 60)
@@ -208,7 +196,6 @@ def formatear_resultado(tokens, errores, codigo):
         val_corto = valor if len(valor) <= 16 else valor[:13] + "..."
         resultado.append(f"  {nombre:<22} {val_corto:<18} {lin:>4}  {num_token:>6}")
 
-    # ── Errores ──
     if errores:
         resultado.append("")
         resultado.append("  TOKENS NO RECONOCIDOS (ERRORES)")
@@ -223,8 +210,62 @@ def formatear_resultado(tokens, errores, codigo):
 
 
 # ─────────────────────────────────────────────
-#  MÓDULO DE AUTÓMATAS AFD / AFND
+#  MÓDULO DE AUTÓMATAS — funciones de validación
 # ─────────────────────────────────────────────
+
+def es_afd(expr):
+    """Determina si una expresión regular corresponde a un AFD o AFND."""
+    if re.search(r'\|', expr):         return "AFND"
+    if re.search(r'\?', expr):         return "AFND"
+    if re.search(r'\*', expr):         return "AFND"
+    if re.search(r'\(.*\+.*\)', expr): return "AFND"
+    return "AFD"
+
+
+def validar_cadena(expr, cadena):
+    """Valida si una cadena es aceptada por la expresión regular."""
+    try:
+        patron = re.compile(f"^(?:{expr})$")
+        return patron.match(cadena) is not None
+    except re.error:
+        return False
+
+
+def analizar_automata(expr, cadena):
+    """Analiza una expresión y valida una cadena."""
+    tipo = es_afd(expr)
+    resultado = []
+    resultado.append("=" * 55)
+    resultado.append("  ANÁLISIS DE AUTÓMATA")
+    resultado.append("=" * 55)
+    resultado.append(f"  Expresión regular : {expr}")
+    resultado.append(f"  Tipo detectado    : {tipo}")
+    resultado.append("")
+
+    razones = []
+    if "|" in expr:  razones.append("contiene | (alternancia) → no determinismo")
+    if "?" in expr:  razones.append("contiene ? (opcional) → epsilon-transición")
+    if "*" in expr:  razones.append("contiene * (cero o más) → epsilon-transición")
+    if not razones:  razones.append("cada símbolo tiene exactamente un camino")
+
+    resultado.append("  Razón:")
+    for r in razones:
+        resultado.append(f"    • {r}")
+
+    resultado.append("")
+    resultado.append(f"  Cadena a validar  : '{cadena}'")
+
+    if cadena:
+        acepta = validar_cadena(expr, cadena)
+        resultado.append(f"  Resultado         : {'[ACEPTADA]' if acepta else '[RECHAZADA]'}")
+        resultado.append("")
+        if acepta:
+            resultado.append("  El autómata procesó la cadena y llegó a un ESTADO FINAL.")
+        else:
+            resultado.append("  El autómata procesó la cadena y NO llegó a estado final.")
+
+    resultado.append("=" * 55)
+    return "\n".join(resultado)
 
 
 # ─────────────────────────────────────────────
@@ -297,7 +338,6 @@ class MicroCCompiler:
     # ── Interfaz ──────────────────────────────
 
     def _construir_interfaz(self):
-        # Toolbar
         toolbar = tk.Frame(self.root, bg="#2d2d2d", height=40)
         toolbar.pack(fill=tk.X, side=tk.TOP)
 
@@ -328,7 +368,6 @@ class MicroCCompiler:
                   activeforeground="white",
                   font=("Segoe UI", 9)).pack(side=tk.RIGHT, padx=8, pady=5)
 
-        # Labels
         lf = tk.Frame(self.root, bg="#1e1e1e")
         lf.pack(fill=tk.X, padx=10, pady=(8, 0))
         lbl = dict(bg="#1e1e1e", fg="#9cdcfe", font=("Segoe UI", 9, "bold"))
@@ -336,13 +375,11 @@ class MicroCCompiler:
         tk.Label(lf, text="Resultados del Análisis Léxico", **lbl).pack(
             side=tk.RIGHT, padx=5)
 
-        # Panel principal
         panel = tk.Frame(self.root, bg="#1e1e1e")
         panel.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
         codigo_font = font.Font(family="Courier New", size=11)
 
-        # Panel izquierdo (código)
         frame_cod = tk.Frame(panel, bg="#252526", bd=1, relief="solid")
         frame_cod.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
 
@@ -364,7 +401,6 @@ class MicroCCompiler:
         self.textbox1.bind("<KeyRelease>", self._on_texto_cambiado)
         self.textbox1.bind("<MouseWheel>", self._actualizar_numeros)
 
-        # Panel derecho (resultado)
         frame_res = tk.Frame(panel, bg="#252526", bd=1, relief="solid")
         frame_res.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=(5, 0))
 
@@ -378,7 +414,6 @@ class MicroCCompiler:
         sc2.pack(side=tk.RIGHT, fill=tk.Y)
         self.textbox2.config(yscrollcommand=sc2.set)
 
-        # Barra de estado
         self.barra_estado = tk.Label(
             self.root, text="Listo", bg="#007acc", fg="white",
             anchor="w", padx=10, font=("Segoe UI", 8))
@@ -541,13 +576,11 @@ class MicroCCompiler:
         win.geometry("950x700")
         win.configure(bg="#1e1e1e")
 
-        # ── Título ──
         tk.Label(win, text="  AUTÓMATAS AFD y AFND",
                  bg="#0078d4", fg="white",
                  font=("Segoe UI", 12, "bold"),
                  anchor="w", padx=10, pady=6).pack(fill=tk.X)
 
-        # ── Panel ARRIBA: ingresar expresión propia ──
         frame_custom = tk.Frame(win, bg="#1a1a2e")
         frame_custom.pack(fill=tk.X, padx=0, pady=0)
 
@@ -605,10 +638,8 @@ class MicroCCompiler:
                   cursor="hand2",
                   font=("Segoe UI", 9)).pack(side=tk.LEFT)
 
-        # ── Separador ──
         tk.Frame(win, bg="#0078d4", height=2).pack(fill=tk.X)
 
-        # ── Panel MEDIO: resultado (textbox grande) ──
         frame_mid = tk.Frame(win, bg="#252526", bd=1, relief="solid")
         frame_mid.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
@@ -620,7 +651,6 @@ class MicroCCompiler:
         sc.pack(side=tk.RIGHT, fill=tk.Y)
         txt_detalle.config(yscrollcommand=sc.set)
 
-        # Mensaje inicial
         self._log_automata(txt_detalle,
             "  Bienvenido al módulo de Autómatas AFD y AFND\n\n"
             "  → Ingresa una expresión regular y una cadena para validar\n\n"
@@ -645,14 +675,15 @@ class MicroCCompiler:
         expr   = self._expr_entry.get().strip()
         cadena = self._cadena_entry.get()
         if not expr:
-            self._log_automata(txt, "  ⚠ Ingresá una expresión regular primero.\n\n"
-                               "  Ejemplos:\n"
-                               "    (a|b)*     → AFND\n"
-                               "    ab+a       → AFD\n"
-                               "    (0|1)+     → AFND\n"
-                               "    a?b+       → AFND")
+            self._log_automata(txt,
+                "  ⚠ Ingresá una expresión regular primero.\n\n"
+                "  Ejemplos:\n"
+                "    (a|b)*     → AFND\n"
+                "    ab+a       → AFD\n"
+                "    (0|1)+     → AFND\n"
+                "    a?b+       → AFND")
             return
-        resultado = analizar_automata_personalizado(expr, cadena)
+        resultado = analizar_automata(expr, cadena)
         self._log_automata(txt, resultado)
 
     def ayuda(self):
