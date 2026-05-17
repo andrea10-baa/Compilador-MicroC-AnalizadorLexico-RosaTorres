@@ -1,11 +1,11 @@
 # Compilador-MicroC-AnalizadorLexico-RosaTorres
 
 | Campo | Información |
-|-------|-------------|
+| --- | --- |
 | **Nombre** | Rosa Andrea Fernanda Torres Del Aguila |
 | **Carné** | 202425516 |
 | **Curso** | Autómatas y Lenguajes |
-| **Proyecto** | Analizador Léxico MicroC — Etapa 1 |
+| **Proyecto** | Analizador Léxico MicroC — Etapa 1 Y Etapa 2 |
 | **Universidad** | Universidad Mesoamericana |
 | **Año** | 2026 |
 
@@ -22,7 +22,7 @@ El analizador indica si el código ingresado **pertenece o no pertenece** al len
 ## Tokens Reconocidos
 
 | Token | Descripción | Expresión Regular |
-|-------|-------------|-------------------|
+| --- | --- | --- |
 | **ID** | Identificadores | `[a-zA-Z_][a-zA-Z0-9_]*` |
 | **NUM** | Números enteros | `[0-9]+` |
 | **REAL** | Números reales | `[0-9]+\.[0-9]+` |
@@ -37,7 +37,7 @@ El analizador indica si el código ingresado **pertenece o no pertenece** al len
 ## Tecnologías Usadas
 
 | Tecnología | Descripción |
-|------------|-------------|
+| --- | --- |
 | Python 3.13 | Lenguaje de programación principal |
 | Tkinter | Librería para la interfaz gráfica (incluida en Python) |
 | re (regex) | Módulo de expresiones regulares para el análisis léxico |
@@ -47,23 +47,27 @@ El analizador indica si el código ingresado **pertenece o no pertenece** al len
 ## Instrucciones de Ejecución
 
 ### Requisitos previos
+
 - Tener instalado Python 3.x en la computadora
 - Verificar la instalación con: `python --version`
 
 ### Pasos para ejecutar
 
 1. Clonar el repositorio:
-```bash
+
+```
 git clone https://github.com/andrea10-baa/Compilador-MicroC-AnalizadorLexico-RosaTorres.git
 ```
 
 2. Ingresar a la carpeta del proyecto:
-```bash
+
+```
 cd Compilador-MicroC-AnalizadorLexico-RosaTorres
 ```
 
 3. Ejecutar el compilador:
-```bash
+
+```
 python "microC compiler.py"
 ```
 
@@ -72,7 +76,7 @@ python "microC compiler.py"
 ## Funcionalidades
 
 | Botón | Función |
-|-------|---------|
+| --- | --- |
 | **Nuevo** | Crea un nuevo archivo en modo edición |
 | **Abrir** | Carga un archivo .c existente (solo lectura) |
 | **Guardar** | Guarda el archivo con extensión .c |
@@ -86,6 +90,7 @@ python "microC compiler.py"
 ## Ejemplo de Uso
 
 ### Código válido ✅
+
 ```c
 int main() {
     int x = 5;
@@ -95,15 +100,18 @@ int main() {
     return 0;
 }
 ```
+
 **Resultado:** Análisis léxico EXITOSO — todos los tokens pertenecen al lenguaje MicroC.
 
 ### Código con errores ✗
+
 ```c
 int main() {
     int x = 10 @ 2;
     return 0;
 }
 ```
+
 **Resultado:** CON 1 ERROR — Línea 2: símbolo desconocido '@'
 
 ---
@@ -120,14 +128,18 @@ Enlace al video demostrativo: [Ver video](https://youtu.be/6cNhU_VurHk)
 Compilador-MicroC-AnalizadorLexico-RosaTorres/
 │
 ├── microC compiler.py      → Código fuente con analizador léxico
-│
+├── assets/                 → Recursos y capturas de pantalla
+├── docs/                   → Documentación adicional
+├── src/                    → Código fuente organizado
 └── README.md               → Documentación principal
 ```
+
+---
 
 ## Historial de Commits
 
 | # | Mensaje |
-|---|---------|
+| --- | --- |
 | 1 | Initial commit |
 | 2 | feat: implementar analizador lexico - etapa 1 |
 | 3 | docs: actualizar README con documentacion del analizador lexico |
