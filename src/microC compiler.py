@@ -676,7 +676,7 @@ class MicroCCompiler:
         cadena = self._cadena_entry.get()
         if not expr:
             self._log_automata(txt,
-                "  ⚠ Ingresá una expresión regular primero.\n\n"
+                "  Ingresá una expresión regular primero.\n\n"
                 "  Ejemplos:\n"
                 "    (a|b)*     → AFND\n"
                 "    ab+a       → AFD\n"
@@ -690,12 +690,18 @@ class MicroCCompiler:
 
     def ayuda(self):
         """Abre directamente el PDF de instrucciones del compilador."""
-        ruta_pdf = r"C:\Users\randr\OneDrive\Documentos\AUTOMATAS Y LENGUAJES\COMPILADOR AL 2026.pdf"
-        try:
-            os.startfile(ruta_pdf)
-            self._log_resultado("  Abriendo instrucciones del compilador...")
-        except Exception as e:
-            messagebox.showerror("Error", f"No se pudo abrir el PDF:\n{e}")
+        base = os.path.dirname(os.path.abspath(__file__))
+        rutas = [
+            os.path.join(base, "..", "docs", "COMPILADOR AL 2026.pdf"),
+            os.path.join(base, "docs", "COMPILADOR AL 2026.pdf"),
+        ]
+        for ruta in rutas:
+            ruta = os.path.normpath(ruta)
+            if os.path.exists(ruta):
+                os.startfile(ruta)
+                self._log_resultado("  Abriendo instrucciones del compilador...")
+                return
+        messagebox.showerror("Error", "No se encontró el PDF.\nAsegurate de que 'COMPILADOR AL 2026.pdf' esté en la carpeta docs/")
 
 
     def _ayuda_legacy(self):
