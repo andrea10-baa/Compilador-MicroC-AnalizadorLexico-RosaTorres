@@ -5,7 +5,7 @@
 | **Nombre** | Rosa Andrea Fernanda Torres Del Aguila |
 | **Carné** | 202425516 |
 | **Curso** | Autómatas y Lenguajes |
-| **Proyecto** | Analizador Léxico MicroC — Etapa 1 |
+| **Proyecto** | Analizador Léxico MicroC — Etapa 1 Y Etapa 2|
 | **Universidad** | Universidad Mesoamericana |
 | **Año** | 2026 |
 
