@@ -686,26 +686,248 @@ class MicroCCompiler:
         resultado = analizar_automata(expr, cadena)
         self._log_automata(txt, resultado)
 
+    # ── AYUDA: abre ventana con instrucciones del compilador ──────
+
     def ayuda(self):
-        self._log_resultado(
-            "=" * 50 + "\n"
-            "  AYUDA - MicroC Compiler v3.0\n"
-            "-" * 50 + "\n"
-            "  Nuevo    → Crear nuevo archivo\n"
-            "  Abrir    → Cargar archivo .C\n"
-            "  Guardar  → Guardar archivo .C\n"
-            "  Editar   → Habilitar edición\n"
-            "  Compilar → Ejecutar análisis léxico (F5)\n"
-            "  Salir    → Cerrar aplicación\n"
-            "-" * 50 + "\n"
-            "  El analizador léxico identifica:\n"
-            "  Palabras reservadas, identificadores,\n"
-            "  números enteros/reales, operadores,\n"
-            "  delimitadores, cadenas y comentarios.\n"
-            "  Cada token muestra su número de token\n"
-            "  según la tabla de UnidadesLexicas.\n"
-            "=" * 50
-        )
+        """Abre directamente el PDF de instrucciones del compilador."""
+        ruta_pdf = r"C:\Users\randr\OneDrive\Documentos\AUTOMATAS Y LENGUAJES\COMPILADOR AL 2026.pdf"
+        try:
+            os.startfile(ruta_pdf)
+            self._log_resultado("  Abriendo instrucciones del compilador...")
+        except Exception as e:
+            messagebox.showerror("Error", f"No se pudo abrir el PDF:\n{e}")
+
+
+    def _ayuda_legacy(self):
+        """(Respaldo) Abre ventana con texto de ayuda básica."""
+        win = tk.Toplevel(self.root)
+        win.title("Ayuda - Instrucciones del Compilador MicroC")
+        win.geometry("860x680")
+        win.configure(bg="#1e1e1e")
+        win.resizable(True, True)
+
+        # ── Encabezado ──
+        header = tk.Frame(win, bg="#0078d4")
+        header.pack(fill=tk.X)
+        tk.Label(header,
+                 text="  📄  INSTRUCCIONES DEL COMPILADOR MicroC",
+                 bg="#0078d4", fg="white",
+                 font=("Segoe UI", 12, "bold"),
+                 anchor="w", padx=10, pady=8).pack(side=tk.LEFT)
+        tk.Label(header,
+                 text="Curso: Autómatas y Lenguajes  |  Año: 2026",
+                 bg="#0078d4", fg="#cce4ff",
+                 font=("Segoe UI", 9),
+                 anchor="e", padx=12).pack(side=tk.RIGHT)
+
+        # ── Área de texto con scroll ──
+        frame_txt = tk.Frame(win, bg="#0d1117", bd=1, relief="solid")
+        frame_txt.pack(fill=tk.BOTH, expand=True, padx=10, pady=(8, 4))
+
+        sc_v = tk.Scrollbar(frame_txt)
+        sc_v.pack(side=tk.RIGHT, fill=tk.Y)
+        sc_h = tk.Scrollbar(frame_txt, orient=tk.HORIZONTAL)
+        sc_h.pack(side=tk.BOTTOM, fill=tk.X)
+
+        txt = tk.Text(frame_txt,
+                      bg="#0d1117", fg="#e6edf3",
+                      font=("Segoe UI", 10),
+                      bd=0, padx=14, pady=10,
+                      state="disabled",
+                      wrap="word",
+                      yscrollcommand=sc_v.set,
+                      xscrollcommand=sc_h.set)
+        txt.pack(fill=tk.BOTH, expand=True)
+        sc_v.config(command=txt.yview)
+        sc_h.config(command=txt.xview)
+
+        # ── Configurar tags de estilos ──
+        txt.tag_configure("titulo",    font=("Segoe UI", 13, "bold"), foreground="#58a6ff")
+        txt.tag_configure("seccion",   font=("Segoe UI", 11, "bold"), foreground="#f39c12")
+        txt.tag_configure("subseccion",font=("Segoe UI", 10, "bold"), foreground="#7ee787")
+        txt.tag_configure("normal",    font=("Segoe UI", 10),         foreground="#e6edf3")
+        txt.tag_configure("bullet",    font=("Segoe UI", 10),         foreground="#a5d6ff", lmargin1=20, lmargin2=32)
+        txt.tag_configure("codigo",    font=("Courier New", 10),      foreground="#ffa657", background="#161b22")
+        txt.tag_configure("separador", foreground="#30363d")
+        txt.tag_configure("info",      font=("Segoe UI", 9, "italic"),foreground="#8b949e")
+
+        def ins(texto, tag="normal"):
+            txt.config(state="normal")
+            txt.insert("end", texto, tag)
+            txt.config(state="disabled")
+
+        # ══════════════════════════════════════════════════════
+        #  CONTENIDO DE LAS INSTRUCCIONES
+        # ══════════════════════════════════════════════════════
+        ins("ANALIZADOR LÉXICO — MicroC Compiler\n", "titulo")
+        ins("Universidad Mesoamericana  ·  Ing. Baudilio Boteo  ·  boteob@umes.edu.gt\n\n", "info")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("I.  IDENTIFICACIÓN\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        ins("  Curso   :  Autómatas y Lenguajes\n", "normal")
+        ins("  Año     :  2026       Semestre: V       Carrera: Ing. Sistemas\n\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("II.  OBJETIVOS\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        ins("  • Implementar un analizador léxico funcional que procese código\n"
+            "    fuente y genere una lista estructurada de tokens.\n", "bullet")
+        ins("  • Identificar lexemas válidos del lenguaje.\n", "bullet")
+        ins("  • Clasificar tokens por tipo.\n\n", "bullet")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("III.  DESCRIPCIÓN — Analizador Léxico [MicroC]\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        ins("  Consiste en implementar la funcionalidad del Análisis Léxico al\n"
+            "  Compilador, siendo esta la primera etapa de un compilador completo.\n"
+            "  El objetivo es indicar si los símbolos pertenecen o no al lenguaje\n"
+            "  analizado (en nuestro caso C++).\n\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("IV.  ESTRUCTURA DE CLASES (Diagrama UML)\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+
+        ins("  Clase: frmEditor (Frame)\n", "subseccion")
+        ins("  Uso: Define los objetos para la visualización gráfica del\n"
+            "  compilador con los botones mínimos para su funcionamiento.\n", "normal")
+        ins("  Funciones:\n", "normal")
+        for f in ["OpcNuevo_Click()", "OpcAbrir_Click()", "OpcGuardar_Click()",
+                  "OpcGuardarComo_Click()", "OpcSalir_Click()", "OpcCompilar_Click()"]:
+            ins(f"    → {f}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("  Clase: AnalizadorLexico\n", "subseccion")
+        ins("  Uso: Define las propiedades y funcionalidades del analizador léxico.\n", "normal")
+        ins("  Funciones:\n", "normal")
+        for f in [
+            "GetAlfabetoAlfanumerico(char c) : int",
+            "GetAlfabetoNumero(char c)        : int",
+            "GetAlfabetoSimbolo(char c)       : int",
+            "IdentificadorPalabraReservada(String Archivo) : void",
+            "EnteroReal(String Archivo)       : void",
+            "AutomataComentario(String Archivo): void",
+            "AnalisisLexico(String Archivo)   : List<String>",
+        ]:
+            ins(f"    → {f}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("  Clase: UnidadesLexicas\n", "subseccion")
+        ins("  Uso: Define la tabla de símbolos del lenguaje.\n", "normal")
+        ins("  Funciones:\n", "normal")
+        for f in ["GetTokenPalabra(String Lexema) : int",
+                  "GetTokenSimbolo(String Lexema) : int"]:
+            ins(f"    → {f}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("V.  FASE I — Tareas Básicas\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        fases1 = [
+            "Generar lista de tokens que serán enviados al analizador sintáctico.",
+            "Eliminar espacios en blanco del código fuente.",
+            "Eliminar tabuladores, saltos de línea y caracteres especiales.",
+            "Relacionar líneas de código con el análisis.",
+            "Identificar lexemas simples y relacionarlos con su respectivo token.",
+        ]
+        for i, item in enumerate(fases1, 1):
+            ins(f"  {i}. {item}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("VI.  FASE II — Completar Lista de Tokens\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        fases2 = [
+            "Identificar palabras reservadas.",
+            "Identificar números (enteros y reales).",
+            "Identificar comentarios (línea simple y multilínea).",
+        ]
+        for i, item in enumerate(fases2, 1):
+            ins(f"  {i}. {item}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("VII.  TABLA DE TOKENS — Palabras Reservadas\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        categorias_palabras = [
+            ("Palabras reservadas C/C++",   "auto, break, case, char, const, continue, default, do,\n"
+                                             "    double, else, enum, extern, float, for, goto, if, int,\n"
+                                             "    long, register, return, short, signed, sizeof, static,\n"
+                                             "    struct, switch, typedef, union, unsigned, void, volatile,\n"
+                                             "    while, bool                                    (Tokens 1–33)"),
+            ("Directivas de preprocesador", "include, define, ifdef, ifndef, endif, undef         (Tokens 34–39)"),
+            ("Funciones stdio.h",           "printf, scanf, fprintf, fscanf, fopen, fclose,\n"
+                                             "    fgets, fputs, fputc, fgetc                        (Tokens 40–49)"),
+            ("Funciones stdlib.h",          "malloc, free, exit, atoi, atof, atol,\n"
+                                             "    rand, srand, calloc, realloc                      (Tokens 50–59)"),
+            ("Generales / otras",           "main, null, NULL, true, false                         (Tokens 60–64)"),
+            ("Identificador (genérico)",    "Cualquier nombre no reservado                         (Token 300)"),
+        ]
+        for nombre, detalle in categorias_palabras:
+            ins(f"  {nombre}\n", "subseccion")
+            ins(f"    {detalle}\n\n", "codigo")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("VIII.  TABLA DE TOKENS — Símbolos\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        categorias_simbolos = [
+            ("Aritméticos",                "+ - * / %                                             (Tokens 70–74)"),
+            ("Asignación / incr. / decr.", "= += -= *= /= %=  ++  --                              (Tokens 75–82)"),
+            ("Relacionales",               "== != < > <= >=                                       (Tokens 83–88)"),
+            ("Lógicos",                    "&& || !                                               (Tokens 89–91)"),
+            ("Agrupación",                 "( ) { } [ ]                                           (Tokens 92–97)"),
+            ("Misceláneos",                "; , . : & | ^ ~ << >>                               (Tokens 98–107)"),
+            ("Generales",                  "# ?                                                (Tokens 108–109)"),
+        ]
+        for nombre, detalle in categorias_simbolos:
+            ins(f"  {nombre}\n", "subseccion")
+            ins(f"    {detalle}\n\n", "codigo")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("IX.  TOKENS ESPECIALES\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        especiales = [
+            ("200", "ENTERO         — número entero literal"),
+            ("201", "REAL           — número real / flotante"),
+            ("202", "CADENA         — literal entre comillas dobles"),
+            ("203", "COMENTARIO_SL  — comentario de línea  //..."),
+            ("204", "COMENTARIO_ML  — comentario multilínea /* ... */"),
+            ("205", "PREPROCESADOR  — directiva #include, #define, etc."),
+            ("206", "CARACTER       — literal de carácter  'x'"),
+            (" -1", "DESCONOCIDO    — símbolo no reconocido (error léxico)"),
+        ]
+        for tok, desc in especiales:
+            ins(f"  Token {tok}  →  {desc}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("X.  USO DEL COMPILADOR\n", "seccion")
+        ins("─" * 72 + "\n\n", "separador")
+        pasos = [
+            ("Nuevo   (Ctrl+N)", "Crea un archivo en blanco para escribir código C."),
+            ("Abrir   (Ctrl+A)", "Carga un archivo .c existente desde el disco."),
+            ("Guardar (Ctrl+G)", "Guarda el archivo actual en disco."),
+            ("Editar",           "Habilita la edición del código cargado."),
+            ("Compilar  (F5)",   "Ejecuta el análisis léxico y muestra la tabla de tokens."),
+            ("Autómatas (F6)",   "Abre el módulo para analizar AFD y AFND con expresiones regulares."),
+            ("Salir",            "Cierra la aplicación (pregunta si hay cambios sin guardar)."),
+        ]
+        for accion, desc in pasos:
+            ins(f"  {accion:<20}  {desc}\n", "bullet")
+        ins("\n", "normal")
+
+        ins("─" * 72 + "\n", "separador")
+        ins("  \"Aprendemos a hacer algo haciéndolo. No existe otra manera.\"\n", "info")
+        ins("                                                        — John Holt\n", "info")
+
+        # Botón cerrar
+        tk.Button(win, text="Cerrar",
+                  command=win.destroy,
+                  bg="#c0392b", fg="white", relief="flat",
+                  padx=20, pady=5, cursor="hand2",
+                  font=("Segoe UI", 9, "bold")).pack(pady=(4, 10))
+
+        win.grab_set()
 
     def acerca_de(self):
         messagebox.showinfo(
